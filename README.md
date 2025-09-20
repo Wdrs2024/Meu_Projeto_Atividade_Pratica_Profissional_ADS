@@ -78,10 +78,9 @@ APIs REST para comunicação entre frontend e backend
 ### 3. Configurar o frontend
 
 - cd frontend
-- npm install
-- npm run serve
+- npm run dev  
 
-### ➡️ O servidor rodará em: http://localhost:3000
+### ➡️ App running at: Local:   http://localhost:8080/
 
 ### 4. Configurar o banco de dados
 
