@@ -64,7 +64,7 @@ APIs REST para comunicação entre frontend e backend
 ## 🔧 Instalação e Configuração
 
 ### 1. Clonar o repositório
-- **git clone https://github.com/usuario/ped-hospitalar.git**
+- **git clone https://github.com/Wdrs2024/Meu_Projeto_Atividade_Pratica_Profissional_ADS.git**
 
 - **cd C:\Users\Windows\Desktop\Atividade_Pratica_Profissional_ADS**
 
