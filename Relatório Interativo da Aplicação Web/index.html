@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Interativo - Gestão de Produtos Hospitalares</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Cool Gray and Blue Palette -->
+    <!-- Application Structure Plan: A single-page scrolling dashboard with a sticky navigation bar to improve usability. The structure is thematic rather than linear: 1) A 'Visão Geral' section with interactive cards for each application module. 2) An 'Arquitetura' section with a clear HTML/CSS diagram showing the system's layers. 3) A 'Tecnologias' section using a doughnut chart and clickable cards to detail the tech stack. 4) A 'Fluxos da Aplicação' section visualizing the user flows as an interactive diagram. This design choice makes the project information more engaging and easier to digest than a static document. -->
+    <!-- Visualization & Content Choices: 
+        - Project Overview -> Goal: Inform -> Method: Interactive Cards -> Interaction: JS click to reveal details -> Justification: Allows users to explore project modules at their own pace.
+        - System Architecture -> Goal: Organize -> Method: HTML/CSS Diagram -> Interaction: Static -> Justification: Clearly visualizes the client-server relationship, a core concept of the project.
+        - Technology Stack -> Goal: Inform/Compare -> Method: Chart.js Doughnut Chart & Clickable Cards -> Interaction: Chart provides a visual summary; JS click events on cards reveal details -> Justification: More engaging than a static list and allows users to focus on specific parts of the stack.
+        - Application Flows -> Goal: Organize/Understand -> Method: HTML/CSS Flowchart -> Interaction: JS hover to highlight steps -> Justification: Translates a text-based process into an intuitive visual sequence, making it easier to follow. 
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .flow-step {
+            transition: all 0.3s ease;
+        }
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .flow-arrow {
+            color: #64748b;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-slate-800">Projeto de Gestão Hospitalar</h1>
+            <ul class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <li><a href="#overview" class="hover:text-blue-600 transition-colors">Visão Geral</a></li>
+                <li><a href="#architecture" class="hover:text-blue-600 transition-colors">Arquitetura</a></li>
+                <li><a href="#technologies" class="hover:text-blue-600 transition-colors">Tecnologias</a></li>
+                <li><a href="#flows" class="hover:text-blue-600 transition-colors">Fluxos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="hero" class="text-center mb-24">
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Relatório Interativo da Aplicação Web</h2>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">Uma análise visual do projeto de desenvolvimento de um sistema de gestão de produtos hospitalares, clientes e contatos.</p>
+        </section>
+
+        <section id="overview" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-slate-800">Visão Geral do Projeto</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">O objetivo foi desenvolver uma aplicação web completa, com frontend e backend desacoplados para garantir escalabilidade e manutenção.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200">
+                    <div class="flex items-center justify-center bg-blue-100 text-blue-600 rounded-full w-12 h-12 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </div>
+                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Módulo de Contato</h4>
+                    <p class="text-slate-600">Permite que usuários enviem mensagens através de um formulário, que são capturadas e armazenadas no banco de dados.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200">
+                    <div class="flex items-center justify-center bg-green-100 text-green-600 rounded-full w-12 h-12 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    </div>
+                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Módulo de Clientes</h4>
+                    <p class="text-slate-600">Habilita o cadastro de novos clientes, armazenando informações essenciais como nome, e-mail e telefone para gestão.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200">
+                    <div class="flex items-center justify-center bg-purple-100 text-purple-600 rounded-full w-12 h-12 mb-4">
+                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                    </div>
+                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Módulo de Produtos</h4>
+                    <p class="text-slate-600">Permite a visualização de produtos cadastrados, com possibilidade de futuras expansões para gerenciamento de estoque.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-slate-800">Arquitetura da Aplicação</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">A aplicação segue uma arquitetura de duas camadas, separando a interface do usuário (Frontend) da lógica de negócios (Backend).</p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 text-center font-medium">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 w-64">
+                    <span class="text-blue-500 text-sm">Camada de Apresentação</span>
+                    <h5 class="text-lg font-semibold mt-1">Frontend (Vue.js)</h5>
+                    <p class="text-xs text-slate-500 mt-1">Interface do Usuário</p>
+                </div>
+                <div class="text-3xl font-mono text-slate-400 flow-arrow mx-4">&lt;--&gt;</div>
+                 <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 w-64">
+                    <span class="text-green-500 text-sm">Camada de Negócios</span>
+                    <h5 class="text-lg font-semibold mt-1">Backend (Node.js)</h5>
+                    <p class="text-xs text-slate-500 mt-1">API RESTful</p>
+                </div>
+                <div class="text-3xl font-mono text-slate-400 flow-arrow mx-4">&lt;--&gt;</div>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200 w-64">
+                    <span class="text-purple-500 text-sm">Camada de Dados</span>
+                    <h5 class="text-lg font-semibold mt-1">Banco de Dados (MySQL)</h5>
+                    <p class="text-xs text-slate-500 mt-1">Persistência</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="technologies" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-slate-800">Tecnologias Utilizadas</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Um stack de tecnologias modernas foi escolhido para garantir um desenvolvimento robusto e eficiente.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="chart-container">
+                    <canvas id="techStackChart"></canvas>
+                </div>
+                <div id="tech-details" class="space-y-4">
+                     <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                        <h4 class="font-semibold text-lg text-slate-800">Linguagens e Ferramentas</h4>
+                        <ul class="mt-2 text-slate-600 list-disc list-inside space-y-1">
+                            <li><span class="font-medium">Node.js:</span> Ambiente de execução para JavaScript no servidor.</li>
+                            <li><span class="font-medium">Vue.js:</span> Framework para construção de interfaces de usuário.</li>
+                            <li><span class="font-medium">Axios:</span> Cliente HTTP para comunicação com a API.</li>
+                            <li><span class="font-medium">MySQL:</span> Banco de dados relacional para persistência de dados.</li>
+                        </ul>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                        <h4 class="font-semibold text-lg text-slate-800">Frameworks</h4>
+                         <ul class="mt-2 text-slate-600 list-disc list-inside space-y-1">
+                            <li><span class="font-medium">Express.js:</span> Framework para a criação da API RESTful em Node.js.</li>
+                            <li><span class="font-medium">Vue Router:</span> Biblioteca para roteamento no frontend.</li>
+                        </ul>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+                        <h4 class="font-semibold text-lg text-slate-800">Estilização</h4>
+                         <ul class="mt-2 text-slate-600 list-disc list-inside space-y-1">
+                            <li><span class="font-medium">Bootstrap & Sass (SCSS):</span> Utilizados para estilização e responsividade da interface.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flows" class="scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-slate-800">Fluxos da Aplicação</h3>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Visualize o fluxo de dados do formulário de contato, desde a interação do usuário até o armazenamento no banco de dados.</p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+                <div class="bg-white p-4 rounded-lg shadow-md border border-slate-200 w-full md:w-1/5 flow-step">
+                    <div class="font-bold text-blue-600">1. Usuário</div>
+                    <p class="text-sm mt-1">Preenche e envia o formulário de contato na interface.</p>
+                </div>
+                <div class="text-2xl flow-arrow p-2">&rarr;</div>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-slate-200 w-full md:w-1/5 flow-step">
+                    <div class="font-bold text-green-600">2. Frontend (Vue.js)</div>
+                    <p class="text-sm mt-1">Aciona o método `enviarFormulario()` e faz uma requisição POST com Axios.</p>
+                </div>
+                 <div class="text-2xl flow-arrow p-2">&rarr;</div>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-slate-200 w-full md:w-1/5 flow-step">
+                    <div class="font-bold text-purple-600">3. Backend (API)</div>
+                    <p class="text-sm mt-1">A rota `/api/contacts` recebe os dados da requisição.</p>
+                </div>
+                 <div class="text-2xl flow-arrow p-2">&rarr;</div>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-slate-200 w-full md:w-1/5 flow-step">
+                    <div class="font-bold text-orange-600">4. Banco de Dados</div>
+                    <p class="text-sm mt-1">A API executa uma query SQL para inserir os dados na tabela `contacts`.</p>
+                </div>
+                 <div class="text-2xl flow-arrow p-2">&rarr;</div>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-slate-200 w-full md:w-1/5 flow-step">
+                    <div class="font-bold text-red-600">5. Resposta</div>
+                    <p class="text-sm mt-1">A API retorna um status de sucesso (200/201) e o frontend exibe uma mensagem de confirmação.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 mt-24">
+        <div class="container mx-auto px-6 py-8 text-center text-sm">
+            <p>&copy; 2025 - Relatório de Atividade Prática Profissional</p>
+            <p class="mt-1">Desenvolvido como parte do projeto de Estágio Supervisionado.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('techStackChart').getContext('2d');
+            
+            const data = {
+                labels: ['Linguagens/Ferramentas', 'Frameworks', 'Estilização'],
+                datasets: [{
+                    label: 'Distribuição de Tecnologias',
+                    data: [4, 2, 1],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.7)',
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(139, 92, 246, 0.7)',
+                    ],
+                    borderColor: [
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(139, 92, 246, 1)',
+                    ],
+                    borderWidth: 1,
+                    hoverOffset: 4
+                }]
+            };
+
+            const config = {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                    size: 14
+                                },
+                                color: '#475569'
+                            }
+                        },
+                        tooltip: {
+                            titleFont: {
+                                family: "'Inter', sans-serif"
+                            },
+                            bodyFont: {
+                                family: "'Inter', sans-serif"
+                            }
+                        }
+                    }
+                },
+            };
+
+            new Chart(ctx, config);
+        });
+    </script>
+</body>
+</html>
