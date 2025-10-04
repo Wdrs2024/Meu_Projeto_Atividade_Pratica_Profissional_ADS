@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 app.use('/api/contacts', contactsRoutes);
 
-app.listen(3000, () => {
-  console.log('Servidor backend rodando em http://localhost:3000');
+app.listen(5000, () => {
+  console.log('Servidor backend rodando em http://localhost:5000');
 });
 
