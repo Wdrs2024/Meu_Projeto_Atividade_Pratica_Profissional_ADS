@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const db = require('./config/db');
 
 const app = express();
 const port = process.env.PORT || 3000;
-
 
 // Middleware
 app.use(express.json());
@@ -26,7 +26,16 @@ app.post('/api/contacts', (req, res) => {
     console.log(`Email: ${email}`);
     console.log(`Mensagem: ${message}`);
 
-    res.status(200).json({ message: 'Mensagem recebida com sucesso!' });
+    const query = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
+
+    db.query(query, [name, email, message], (err, result) => {
+        if (err) {
+            console.error('Erro ao salvar contato:', err);
+            return res.status(500).json({ error: 'Erro ao salvar contato' });
+        }
+        console.log('Contato inserido com sucesso, ID:', result.insertId);
+        res.status(201).json({ message: 'Contato salvo com sucesso!' });
+    });
 });
 
 // Inicia o servidor
